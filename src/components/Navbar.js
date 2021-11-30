@@ -130,6 +130,13 @@ function Navbar(props) {
                       <Link href="/settings/general" passHref={true}>
                         <MenuItem component="a">Settings</MenuItem>
                       </Link>
+                      {auth.user.teacher && (
+                        <>
+                          <Link href="/teacher" passHref={true}>
+                            <MenuItem component="a">Teacher</MenuItem>
+                          </Link>
+                        </>
+                      )}
                       <Divider />
                       <MenuItem
                         onClick={(event) => {

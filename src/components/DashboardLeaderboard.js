@@ -18,10 +18,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import EditItemModal from "components/EditItemModal";
 import { useAuth } from "util/auth";
 import { updateItem, deleteItem, useItemsByOwner } from "util/db";
+import { Refresh } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   paperItems: {
-    minHeight: "512px",
+    minHeight: "300px",
   },
   featured: {
     backgroundColor:
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DashboardItems(props) {
+function DashboardLeaderboard(props) {
   const classes = useStyles();
 
   const auth = useAuth();
@@ -49,13 +50,15 @@ function DashboardItems(props) {
 
   const itemsAreEmpty = !items || items.length === 0;
 
-  const canUseStar =
-    auth.user.planIsActive &&
-    (auth.user.planId === "pro" || auth.user.planId === "business");
+  const canUserBan = auth.user.planIsActive;
 
   const handleStarItem = (item) => {
     updateItem(item.id, { featured: !item.featured });
   };
+
+  const refreshLeaderboard = () => {
+    location.reload();
+  }
 
   return (
     <>
@@ -72,7 +75,8 @@ function DashboardItems(props) {
           alignItems="center"
           padding={2}
         >
-          <Typography variant="h5">Emojis</Typography>
+          <Typography variant="h5">Leaderboard</Typography>
+          <Button variant="contained" size="medium" color="primary" endIcon={<Refresh />} onClick={() => refreshLeaderboard()}>Refresh</Button>
         </Box>
         <Divider />
 
@@ -81,7 +85,7 @@ function DashboardItems(props) {
             {itemsStatus === "loading" && <CircularProgress size={32} />}
 
             {itemsStatus !== "loading" && itemsAreEmpty && (
-              <>You don't have any emojis yet!</>
+              <>It seems nobody in your class has gotten emojis yet.</>
             )}
           </Box>
         )}
@@ -94,7 +98,7 @@ function DashboardItems(props) {
                 divider={index !== items.length - 1}
                 className={item.featured ? classes.featured : ""}
               >
-                <ListItemText>{item.emoji}</ListItemText>
+                <ListItemText>{item.name}</ListItemText>
                 <ListItemSecondaryAction>
                   <IconButton
                     edge="end"
@@ -103,6 +107,20 @@ function DashboardItems(props) {
                     className={item.featured ? classes.starFeatured : ""}
                   >
                     <StarIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="update"
+                    onClick={() => setUpdatingItemId(item.id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => deleteItem(item.id)}
+                  >
+                    <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
@@ -123,4 +141,4 @@ function DashboardItems(props) {
   );
 }
 
-export default DashboardItems;
+export default DashboardLeaderboard;

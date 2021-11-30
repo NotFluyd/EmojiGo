@@ -53,14 +53,14 @@ export function updateUser(uid, data) {
   return updateDoc(doc(db, "users", uid), data);
 }
 
-/**** ITEMS ****/
+/**** EMOJIS ****/
 /* Example query functions (modify to your needs) */
 
 // Subscribe to item data
 export function useItem(id) {
   return useQuery(
     ["item", { id }],
-    createQuery(() => doc(db, "items", id)),
+    createQuery(() => doc(db, "emojis", id)),
     { enabled: !!id }
   );
 }
@@ -71,7 +71,7 @@ export function useItemOnce(id) {
     ["item", { id }],
     // When fetching once there is no need to use `createQuery` to setup a subscription
     // Just fetch normally using `getDoc` so that we return a promise
-    () => getDoc(doc(db, "items", id)).then(format),
+    () => getDoc(doc(db, "emojis", id)).then(format),
     { enabled: !!id }
   );
 }
@@ -79,16 +79,16 @@ export function useItemOnce(id) {
 // Fetch item data once (non-hook)
 // Useful if you need to fetch data from outside of a component
 export function getItem(id) {
-  return getDoc(doc(db, "items", id)).then(format);
+  return getDoc(doc(db, "emojis", id)).then(format);
 }
 
 // Subscribe to all items by owner
 export function useItemsByOwner(owner) {
   return useQuery(
-    ["items", { owner }],
+    ["emojis", { owner }],
     createQuery(() =>
       query(
-        collection(db, "items"),
+        collection(db, "emojis"),
         where("owner", "==", owner),
         orderBy("createdAt", "desc")
       )
@@ -99,7 +99,7 @@ export function useItemsByOwner(owner) {
 
 // Create a new item
 export function createItem(data) {
-  return addDoc(collection(db, "items"), {
+  return addDoc(collection(db, "emojis"), {
     ...data,
     createdAt: serverTimestamp(),
   });
@@ -107,12 +107,27 @@ export function createItem(data) {
 
 // Update an item
 export function updateItem(id, data) {
-  return updateDoc(doc(db, "items", id), data);
+  return updateDoc(doc(db, "emojis", id), data);
 }
 
 // Delete an item
 export function deleteItem(id) {
-  return deleteDoc(doc(db, "items", id));
+  return deleteDoc(doc(db, "emojis", id));
+}
+
+/**** LEADERBOARD ****/
+export function useLeaderboardForClass(classId) {
+  return useQuery(
+    ["classes", { classId }],
+    createQuery(() =>
+      query(
+        collection(db, "classes"),
+        where("owner", "==", owner),
+        orderBy("createdAt", "desc")
+      )
+    ),
+    { enabled: !!owner }
+  );
 }
 
 /**** HELPERS ****/

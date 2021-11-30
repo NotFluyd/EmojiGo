@@ -13,6 +13,9 @@ function SettingsGeneral(props) {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (data) => {
+    if (!data.classid) {
+      data.classid = auth.user.classid;
+    }
     // Show pending indicator
     setPending(true);
 
@@ -32,11 +35,16 @@ function SettingsGeneral(props) {
             // Resubmit after reauth flow
             callback: () => onSubmit(data),
           });
+        } else if(error.code === "invalid-argument") {
+          props.onStatus({
+            type: "error",
+            message: "Invalid Class ID",
+          });
         } else {
           // Set error status
           props.onStatus({
             type: "error",
-            message: error.message,
+            message: error.code,
           });
         }
       })
@@ -78,6 +86,23 @@ function SettingsGeneral(props) {
             fullWidth={true}
             inputRef={register({
               required: "Please enter your email",
+            })}
+          />
+        </Grid>
+        <Grid item={true} xs={12}>
+          <TextField
+            variant="outlined"
+            type="text"
+            label="Class ID"
+            name="classid"
+            disabled={auth.user.classid}
+            placeholder="Class ID"
+            defaultValue={auth.user.classid}
+            error={errors.name ? true : false}
+            helperText={errors.name && errors.name.message}
+            fullWidth={true}
+            inputRef={register({
+              required: "Please enter your name",
             })}
           />
         </Grid>

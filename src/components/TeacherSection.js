@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DashboardSection(props) {
+function TeacherSection(props) {
   const classes = useStyles();
 
   const auth = useAuth();
@@ -81,6 +81,10 @@ function DashboardSection(props) {
                         You are signed in as <strong>{auth.user.email}</strong>.
                       </div>
 
+                        <div>
+                            You are signed in as <strong>{auth.user.class.students}</strong>.
+                        </div>
+
                       <div>
                         You can change your account info{` `}
                         {auth.user.stripeSubscriptionId && <>and plan{` `}</>}
@@ -119,4 +123,4 @@ function DashboardSection(props) {
   );
 }
 
-export default DashboardSection;
+export default TeacherSection;

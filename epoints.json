@@ -1,0 +1,18 @@
+{
+    "Grinning Face": {
+        "emoji": "😀",
+        "points": "5"
+    },
+    "Beaming Face": {
+        "emoji": "😁",
+        "points": "10"
+    },
+    "Zany Face": {
+        "emoji": "🤪",
+        "points": "20"
+    },
+    "Star-Eyes Face": {
+        "emoji": "🤩",
+        "points": "15"
+    },
+}

@@ -82,7 +82,7 @@ function useAuthProvider() {
 
     // Create the user in the database if they are new
     if (isNewUser) {
-      await createUser(user.uid, { email: user.email });
+      await createUser(user.uid, { email: user.email }, user.classId);
       // Send email verification if enabled
       if (EMAIL_VERIFICATION) {
         sendEmailVerification(auth.currentUser);
@@ -131,7 +131,7 @@ function useAuthProvider() {
   // Update auth user and persist data to database
   // Call this function instead of multiple auth/db update functions
   const updateProfile = async (data) => {
-    const { email, name, picture } = data;
+    const { email, name, picture, classId } = data;
 
     // Update auth email
     if (email) {
