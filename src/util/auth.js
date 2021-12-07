@@ -272,6 +272,29 @@ export const requireAuth = (Component) => {
   };
 };
 
+export const requireTeacherAuth = (Component) => {
+  return (props) => {
+    // Get authenticated user
+    const auth = useAuth();
+
+    useEffect(() => {
+      // Redirect if not signed in
+      if (auth.user && auth.user.teacher === false) {
+        router.replace("/dashboard");
+      }
+    }, [auth]);
+
+    // Show loading indicator
+    // We're either loading (user is `null`) or about to redirect from above `useEffect` (user is `false`)
+    if (!auth.user) {
+      return <PageLoader />;
+    }
+
+    // Render component now that we have user
+    return <Component {...props} />;
+  };
+};
+
 // Handle Firebase email link for reverting to original email after an email change
 export const handleRecoverEmail = async (code) => {
   // Check that action code is valid

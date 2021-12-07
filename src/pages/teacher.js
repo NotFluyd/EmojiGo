@@ -1,7 +1,7 @@
 import React from "react";
 import Meta from "components/Meta";
 import DashboardSection from "components/DashboardSection";
-import { requireAuth } from "util/auth";
+import { requireTeacherAuth } from "util/auth";
 import TeacherSection from "components/TeacherSection";
 
 function TeacherPage(props) {
@@ -20,4 +20,4 @@ function TeacherPage(props) {
   );
 }
 
-export default requireAuth(TeacherPage);
+export default requireTeacherAuth(TeacherPage);

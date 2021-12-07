@@ -55,10 +55,8 @@ function TeacherSection(props) {
                     <strong>What is this?</strong>
                   </Typography>
                   <Typography paragraph={true}>
-                    The component on your left is an example UI that shows you
-                    how to fetch, display, and update a list of items that
-                    belong to the current authenticated user. Try it now by
-                    adding a couple items.
+                    Welcome to your EmojiGo teacher panel, this is where you can manage all
+                    your students and classes.
                   </Typography>
                   <Typography paragraph={true}>
                     It also shows how you can limit features based on plan. If
